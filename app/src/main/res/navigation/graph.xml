@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/graph"
+    app:startDestination="@id/webViewFragment">
+
+    <fragment
+        android:id="@+id/webViewFragment"
+        android:name="ru.gustavo.webview.ui.WebViewFragment"
+        android:label="WebViewFragment"
+        tools:layout="@layout/webview_fragment" >
+        <action
+            android:id="@+id/action_webViewFragment_to_spinFragment"
+            app:destination="@id/spinFragment" />
+        <action
+            android:id="@+id/action_webViewFragment_to_noInternetFragment"
+            app:destination="@id/noInternetFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/spinFragment"
+        android:name="ru.gustavo.webview.ui.SpinFragment"
+        android:label="SpinFragment" />
+    <fragment
+        android:id="@+id/noInternetFragment"
+        android:name="ru.gustavo.webview.ui.NoInternetFragment"
+        android:label="NoInternetFragment" />
+
+</navigation>
