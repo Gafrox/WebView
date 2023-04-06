@@ -12,6 +12,7 @@
     tools:context=".ui.MainActivity"
     tools:showIn="@layout/spin_fragment">
 
+
     <ImageView
         android:id="@+id/imageHill"
         android:layout_width="wrap_content"

@@ -1,4 +1,4 @@
-package ru.gustavo.webview.ui
+package star.cas.acting.ui
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -10,7 +10,8 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
-import ru.gustavo.webview.R
+import star.cas.acting.R
+
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
     var prefs: SharedPreferences? = null
@@ -42,7 +43,8 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         prefs = getSharedPreferences("urlPrefs", Context.MODE_PRIVATE)
         URL = URL.ifBlank { prefs?.getString("URL", "")!! }
         if (URL.isBlank()) {
-            URL = remoteConfig.getString("url")
+            val getUrl = remoteConfig.getString("url")
+            URL = getUrl
             sync("URL", URL)
         }
     }

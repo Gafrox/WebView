@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/webViewFragment"
-        android:name="ru.gustavo.webview.ui.WebViewFragment"
+        android:name="star.cas.acting.ui.WebViewFragment"
         android:label="WebViewFragment"
         tools:layout="@layout/webview_fragment" >
         <action
@@ -19,11 +19,11 @@
     </fragment>
     <fragment
         android:id="@+id/spinFragment"
-        android:name="ru.gustavo.webview.ui.SpinFragment"
+        android:name="star.cas.acting.ui.SpinFragment"
         android:label="SpinFragment" />
     <fragment
         android:id="@+id/noInternetFragment"
-        android:name="ru.gustavo.webview.ui.NoInternetFragment"
+        android:name="star.cas.acting.ui.NoInternetFragment"
         android:label="NoInternetFragment" />
 
 </navigation>

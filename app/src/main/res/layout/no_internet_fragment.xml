@@ -9,6 +9,7 @@
         android:layout_height="match_parent"
         android:foregroundGravity="center"
         android:padding="16dp"
+        android:background="@color/gray"
         android:src="@drawable/no_internet" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

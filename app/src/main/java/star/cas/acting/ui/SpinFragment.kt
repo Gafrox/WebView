@@ -1,6 +1,8 @@
-package ru.gustavo.webview.ui
+package star.cas.acting.ui
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -10,29 +12,36 @@ import android.view.animation.DecelerateInterpolator
 import android.view.animation.RotateAnimation
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import ru.gustavo.webview.R
-import ru.gustavo.webview.databinding.SpinFragmentBinding
-import kotlin.math.floor
+import star.cas.acting.R
+import star.cas.acting.databinding.SpinFragmentBinding
+import java.lang.Math.floor
+import java.util.*
 
 class SpinFragment : Fragment(), Animation.AnimationListener {
     private lateinit var binding: SpinFragmentBinding
     private var count = 0
     private var flag = false
     private var powerButton: ImageView? = null
+    private val actionText = (activity as? AppCompatActivity)?.supportActionBar
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = SpinFragmentBinding.inflate(inflater, container, false)
+        (activity as? AppCompatActivity)?.supportActionBar?.show()
+        actionText?.title = "Star Casino "
         return binding.root
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         powerButton = view.findViewById(R.id.powerButton)
-        powerButton!!.setOnTouchListener(PowerTouchListener())
+        powerButton?.setOnTouchListener(PowerTouchListener())
         intSpinner()
     }
 
@@ -83,19 +92,37 @@ class SpinFragment : Fragment(), Animation.AnimationListener {
 
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onAnimationStart(p0: Animation?) {
-        infoText!!.text = "Spinning..."
+        infoText?.text = "Spinning..."
+        changeValue((activity as? AppCompatActivity)?.supportActionBar)
     }
 
     override fun onAnimationEnd(p0: Animation?) {
-        infoText!!.text = prizeText
+        infoText?.text = prizeText
+        (activity as? AppCompatActivity)?.supportActionBar?.title = prizeText
     }
 
     override fun onAnimationRepeat(p0: Animation?) {}
 
-    private inner class PowerTouchListener : View.OnTouchListener {
-        override fun onTouch(p0: View?, motionEvent: MotionEvent?): Boolean {
+    private fun changeValue(actionBar: ActionBar?) {
+        val handler = Handler()
+        val runnable = object : Runnable {
+            var count = 0
+            override fun run() {
+                count++
+                actionBar?.title = "Prize is : ${prizes.random()}"
+                if (count < 28) {
+                    handler.postDelayed(this, 125)
+                }
+            }
+        }
+        handler.postDelayed(runnable, 0)
+    }
 
+    private inner class PowerTouchListener : View.OnTouchListener {
+        @SuppressLint("ClickableViewAccessibility")
+        override fun onTouch(p0: View?, motionEvent: MotionEvent?): Boolean {
             when (motionEvent!!.action) {
                 MotionEvent.ACTION_DOWN -> {
                     flag = true

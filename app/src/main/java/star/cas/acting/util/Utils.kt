@@ -1,12 +1,13 @@
-package ru.gustavo.webview.util
+package star.cas.acting.util
+
 
 import android.os.Build
-import ru.gustavo.webview.BuildConfig
+import star.cas.acting.BuildConfig
 import java.util.*
 
 object Utils {
     fun checkIsEmu(): Boolean {
-        if (BuildConfig.DEBUG) return true
+        /*if (BuildConfig.DEBUG) return true*/
         val phoneModel = Build.MODEL
         val buildProduct = Build.PRODUCT
         val buildHardware = Build.HARDWARE

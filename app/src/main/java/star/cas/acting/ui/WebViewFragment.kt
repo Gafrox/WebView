@@ -1,4 +1,4 @@
-package ru.gustavo.webview.ui
+package star.cas.acting.ui
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -12,11 +12,13 @@ import android.view.ViewGroup
 import android.webkit.CookieManager
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import ru.gustavo.webview.R
-import ru.gustavo.webview.databinding.WebviewFragmentBinding
-import ru.gustavo.webview.util.Utils
+import star.cas.acting.R
+import star.cas.acting.databinding.WebviewFragmentBinding
+import star.cas.acting.util.Utils
+
 
 class WebViewFragment : Fragment() {
     private lateinit var webView: WebView
@@ -27,6 +29,7 @@ class WebViewFragment : Fragment() {
     ): View {
         val binding = WebviewFragmentBinding.inflate(inflater, container, false)
         webView = binding.webView
+        (activity as? AppCompatActivity)?.supportActionBar?.hide()
         return binding.root
     }
 
@@ -39,6 +42,8 @@ class WebViewFragment : Fragment() {
             if (isEmu || URL.isBlank()) {
                 val action = R.id.action_webViewFragment_to_spinFragment
                 findNavController().navigate(action)
+            } else if (savedInstanceState != null) {
+                webView.restoreState(savedInstanceState)
             } else {
                 webView.loadUrl(URL)
             }
@@ -48,6 +53,10 @@ class WebViewFragment : Fragment() {
         }
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        webView.saveState(outState)
+    }
 
     @SuppressLint("SetJavaScriptEnabled")
     fun webViewInit() {
@@ -58,8 +67,8 @@ class WebViewFragment : Fragment() {
         }
         val cookieManager = CookieManager.getInstance()
         cookieManager.setAcceptCookie(true)
-        val mWebSettings = webView.settings
-        mWebSettings.apply {
+        val webSettings = webView.settings
+        webSettings.apply {
             javaScriptEnabled = true
             loadWithOverviewMode = true
             useWideViewPort = true
@@ -74,10 +83,12 @@ class WebViewFragment : Fragment() {
     }
 
     private fun isInternetAvailable(context: Context): Boolean {
-        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             val networkCapabilities = connectivityManager.activeNetwork ?: return false
-            val activeNetwork = connectivityManager.getNetworkCapabilities(networkCapabilities) ?: return false
+            val activeNetwork =
+                connectivityManager.getNetworkCapabilities(networkCapabilities) ?: return false
             return when {
                 activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
                 activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
